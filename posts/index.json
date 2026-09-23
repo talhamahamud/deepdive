@@ -1,0 +1,16 @@
+﻿[
+  {
+    "file": "black-holes-explained.md",
+    "title": "Black Holes: From Theory to Observation",
+    "topic": "Astronomy",
+    "date": "2026-09-01",
+    "excerpt": "A deep dive into the physics of black holes — from Schwarzschild's solution to the Event Horizon Telescope image of M87*."
+  },
+  {
+    "file": "llg-equation.md",
+    "title": "All you need to know and understand about the LLG equation",
+    "topic": "Spintronics",
+    "date": "2026-09-24",
+    "excerpt": "Detailed derivation and explanation of the Landau-Lifshitz-Gilbert equation. How it's work, intuation and derivation included."
+  }
+]

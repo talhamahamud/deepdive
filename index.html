@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeepDive — Science in Depth</title>
+  <meta name="description" content="Detailed science articles covering physics, biology, chemistry, astronomy, and more — written by Talha Mahamud." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo" id="logo-link">
+      <div class="logo-icon">D</div>
+      <span class="logo-name">DeepDive</span>
+    </a>
+
+    <!-- Search -->
+    <div class="search-wrap" id="search-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="search" id="search-input" placeholder="Search posts…" autocomplete="off" />
+      <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ MAIN ══════════════════════════════════════════════════ -->
+<main>
+  <div class="page-layout">
+
+    <!-- Left: topic groups -->
+    <div class="page-content">
+      <div class="topics-container" id="topics-container">
+        <div class="loading" id="loading-indicator">
+          <div class="spinner"></div>
+          <span>Loading posts…</span>
+        </div>
+      </div>
+
+      <div class="no-results" id="no-results">
+        <p>No posts match your search.</p>
+      </div>
+    </div>
+
+    <!-- Right: TOC sidebar -->
+    <aside class="toc-sidebar" id="toc-sidebar" aria-label="Topics navigation">
+      <div class="toc-label">Topics</div>
+      <nav class="toc-nav" id="toc-nav"></nav>
+    </aside>
+
+  </div><!-- /.page-layout -->
+</main>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <span>© <span id="footer-year"></span> All rights reserved · <a href="https://talhamahamud.github.io/portfolio/" class="footer-link">Talha Mahamud</a></span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
