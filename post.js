@@ -38,9 +38,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (err) {
     showError(`Could not load <code>${escapeHtml(filename)}</code>: ${err.message}`);
   }
-
-  // Also set up search (read-only, links back to home with ?q=)
-  setupSearch();
 });
 
 function renderPost(meta, markdown) {

@@ -1,634 +1,345 @@
-I'll derive the Landau-Lifshitz-Gilbert (LLG) equation from absolute first principles, line by line, with no steps skipped. This is the fundamental equation of micromagnetics.
+# Derivation of the Landau–Lifshitz–Gilbert equation
 
----
+The precession part of the LLG equation follows from classical mechanics plus the gyromagnetic relation. The damping part is phenomenological: it is postulated to meet three physical requirements, not derived from a microscopic model. This note keeps one sign convention and one unit system throughout.
 
-## 1. The Starting Point: A Magnetic Moment in a Field
+## 0. Conventions
 
-Consider a single magnetic moment $\boldsymbol{\mu}$ placed in an external magnetic field $\mathbf{H}$. From classical electromagnetism, the **potential energy** of this moment is:
+SI units. Fields **H** are in A/m, flux density **B** = μ₀**H** in tesla.
 
-$$U = -\boldsymbol{\mu} \cdot \mathbf{H}$$
+| Symbol | Meaning | Value / unit |
+| --- | --- | --- |
+| $\gamma$ | Electron gyromagnetic ratio, taken **positive** | $g_e e / 2m_e \approx 1.76086\times10^{11}$ rad s⁻¹ T⁻¹ |
+| $\gamma_0$ | $\mu_0\gamma$, the form used with **H** | $\approx 2.2128\times10^{5}$ m A⁻¹ s⁻¹ |
+| $\mathbf{M}$ | Magnetization, $\lvert\mathbf{M}\rvert = M_s$ | A/m |
+| $\mathbf{m}$ | $\mathbf{M}/M_s$, unit vector | dimensionless |
+| $\alpha$ | Gilbert damping constant | dimensionless |
 
-The **torque** $\boldsymbol{\tau}$ acting on the moment is defined as the gradient of this energy with respect to orientation:
+The electron's negative charge appears as an explicit minus sign, never inside γ. Every equation below can be written with **B** instead of **H** by replacing $\gamma_0\mathbf{H}$ with $\gamma\mathbf{B}$.
 
-$$\boldsymbol{\tau} = -\frac{\partial U}{\partial \boldsymbol{\theta}} = \boldsymbol{\mu} \times \mathbf{H}$$
+## 1. Torque on a magnetic moment
 
-This is the fundamental torque equation. The cross product tells us the torque is perpendicular to both $\boldsymbol{\mu}$ and $\mathbf{H}$, and it tries to align $\boldsymbol{\mu}$ with $\mathbf{H}$.
+A moment **μ** in a field has energy
 
----
+$$
+U = -\mu_0\,\boldsymbol{\mu}\cdot\mathbf{H}
+$$
 
-## 2. Connecting Torque to Angular Momentum
+Rotate the moment by an infinitesimal angle $\delta\boldsymbol{\theta}$, so that $\delta\boldsymbol{\mu} = \delta\boldsymbol{\theta}\times\boldsymbol{\mu}$. The energy changes by
 
-From classical mechanics, torque equals the time derivative of angular momentum $\mathbf{L}$:
+$$
+\delta U = -\mu_0\,(\delta\boldsymbol{\theta}\times\boldsymbol{\mu})\cdot\mathbf{H} = -\mu_0\,\delta\boldsymbol{\theta}\cdot(\boldsymbol{\mu}\times\mathbf{H})
+$$
 
-$$\boldsymbol{\tau} = \frac{d\mathbf{L}}{dt}$$
+The torque is defined by $\delta U = -\boldsymbol{\tau}\cdot\delta\boldsymbol{\theta}$, so
 
-In quantum mechanics (and semiclassically for macrospins), the magnetic moment is proportional to the angular momentum via the **gyromagnetic ratio** $\gamma$:
+$$
+\boldsymbol{\tau} = \mu_0\,\boldsymbol{\mu}\times\mathbf{H}
+$$
 
-$$\boldsymbol{\mu} = \gamma \mathbf{L}$$
+## 2. From torque to precession
 
-**Important sign convention**: For electrons, the magnetic moment is **opposite** to the angular momentum because the charge is negative. Therefore:
+Torque is the rate of change of angular momentum:
 
-$$\gamma = -\frac{g_e e}{2m_e} < 0$$
+$$
+\frac{d\mathbf{L}}{dt} = \boldsymbol{\tau}
+$$
 
-where $g_e \approx 2.0023$ is the electron g-factor, $e > 0$ is the elementary charge, and $m_e$ is the electron mass. Numerically:
+For an electron the moment is antiparallel to its angular momentum:
 
-$$\gamma \approx -1.76086 \times 10^{11} \,\text{rad}\cdot\text{s}^{-1}\cdot\text{T}^{-1}$$
+$$
+\boldsymbol{\mu} = -\gamma\,\mathbf{L}
+$$
 
-Some texts define $\gamma_0 = |\gamma|$ and carry the minus sign explicitly. I will keep $\gamma$ as the negative quantity.
+Multiplying the torque equation by $-\gamma$:
 
----
+$$
+\frac{d\boldsymbol{\mu}}{dt} = -\gamma\mu_0\,\boldsymbol{\mu}\times\mathbf{H} = -\gamma_0\,\boldsymbol{\mu}\times\mathbf{H}
+$$
 
-## 3. The Undamped Equation of Motion
+Magnetization is moment per unit volume, $\mathbf{M} = \sum\boldsymbol{\mu}/V$, and the equation is linear in **μ**, so
 
-Substitute $\boldsymbol{\mu} = \gamma \mathbf{L}$ into the torque equation:
+$$
+\frac{d\mathbf{M}}{dt} = -\gamma_0\,\mathbf{M}\times\mathbf{H}
+$$
 
-$$\frac{d\mathbf{L}}{dt} = \boldsymbol{\mu} \times \mathbf{H} = \gamma \mathbf{L} \times \mathbf{H}$$
+### 2.1 What this equation does
 
-Now define the **magnetization** $\mathbf{M}$ as magnetic moment per unit volume:
+**Magnitude is conserved.** Dot both sides with **M**:
 
-$$\mathbf{M} = \frac{\boldsymbol{\mu}}{V}$$
+$$
+\mathbf{M}\cdot\frac{d\mathbf{M}}{dt} = \tfrac12\frac{d}{dt}|\mathbf{M}|^2 = -\gamma_0\,\mathbf{M}\cdot(\mathbf{M}\times\mathbf{H}) = 0
+$$
 
-Dividing the torque equation by volume $V$:
+So $|\mathbf{M}| = M_s$ is constant and the tip of **M** moves on a sphere.
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}$$
+**Energy is conserved.** Dot both sides with **H** (static field): $\mathbf{H}\cdot d\mathbf{M}/dt = 0$, so $\mathbf{M}\cdot\mathbf{H}$ is constant.
 
-This is the **undamped Landau-Lifshitz equation**. Let's examine what it implies.
+**The motion is Larmor precession.** Rewrite the equation as
 
-### 3.1. Conservation of Magnitude
+$$
+\frac{d\mathbf{M}}{dt} = \boldsymbol{\omega}\times\mathbf{M}, \qquad \boldsymbol{\omega} = \gamma_0\mathbf{H}
+$$
 
-Take the dot product of both sides with $\mathbf{M}$:
+**M** rotates about **H** at $\omega_0 = \gamma_0 H = \gamma B$, counter-clockwise when viewed looking back along **H** (right-handed about **H**). The angle between **M** and **H** never changes.
 
-$$\mathbf{M} \cdot \frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \cdot (\mathbf{M} \times \mathbf{H}) = 0$$
+## 3. The effective field
 
-The right side is zero because $\mathbf{M} \times \mathbf{H}$ is perpendicular to $\mathbf{M}$. Therefore:
+In a ferromagnet **M** responds to more than the applied field. All interactions are collected in the free energy $E[\mathbf{m}] = \int\varepsilon\,dV$, and the effective field is its functional derivative:
 
-$$\frac{d}{dt}(\mathbf{M} \cdot \mathbf{M}) = 0 \implies |\mathbf{M}| = M_s = \text{constant}$$
+$$
+\mathbf{H}_{\text{eff}} = -\frac{1}{\mu_0 M_s}\frac{\delta E}{\delta\mathbf{m}}
+$$
 
-where $M_s$ is the **saturation magnetization**. The magnetization vector precesses on a sphere of radius $M_s$.
+| Contribution | Energy density $\varepsilon$ | Field |
+| --- | --- | --- |
+| Exchange | $A\,(\nabla\mathbf{m})^2$ | $\dfrac{2A}{\mu_0 M_s}\nabla^2\mathbf{m}$ |
+| Uniaxial anisotropy | $K\left[1-(\mathbf{m}\cdot\hat{\mathbf{n}})^2\right]$ | $\dfrac{2K}{\mu_0 M_s}(\mathbf{m}\cdot\hat{\mathbf{n}})\,\hat{\mathbf{n}}$ |
+| Zeeman | $-\mu_0 M_s\,\mathbf{m}\cdot\mathbf{H}_{\text{ext}}$ | $\mathbf{H}_{\text{ext}}$ |
+| Demagnetization | $-\tfrac12\mu_0 M_s\,\mathbf{m}\cdot\mathbf{H}_d$ | $\mathbf{H}_d$ |
 
-### 3.2. Precession Frequency
+In terms of the unit vector, the undamped equation is
 
-The equation $\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}$ describes **Larmor precession**. The vector $\mathbf{M}$ rotates around $\mathbf{H}$ at angular frequency:
+$$
+\frac{\partial\mathbf{m}}{\partial t} = -\gamma_0\,\mathbf{m}\times\mathbf{H}_{\text{eff}}
+$$
 
-$$\omega_0 = |\gamma| H$$
+For a static applied field, the definition of $\mathbf{H}_{\text{eff}}$ gives the rate of change of the energy for any motion of **m**:
 
-The direction of precession depends on the sign of $\gamma$. For electrons ($\gamma < 0$), the precession is **right-handed** about $\mathbf{H}$.
+$$
+\frac{dE}{dt} = \int\frac{\delta E}{\delta\mathbf{m}}\cdot\frac{\partial\mathbf{m}}{\partial t}\,dV = -\mu_0 M_s\int\mathbf{H}_{\text{eff}}\cdot\frac{\partial\mathbf{m}}{\partial t}\,dV
+$$
 
----
+This formula is used twice below.
 
-## 4. The Effective Field
+## 4. Why damping is needed
 
-In real ferromagnets, $\mathbf{M}$ doesn't just respond to external fields. It responds to the **effective field** $\mathbf{H}_{\text{eff}}$, derived from the total free energy density $\mathcal{E}$:
+The undamped equation precesses forever and never reaches equilibrium. Real magnets relax toward $\mathbf{m}\parallel\mathbf{H}_{\text{eff}}$, losing energy to the lattice and conduction electrons (through spin–orbit coupling, magnon–phonon and magnon–electron scattering).
 
-$$\mathbf{H}_{\text{eff}} = -\frac{1}{\mu_0 M_s} \frac{\delta \mathcal{E}}{\delta \mathbf{m}}$$
+A damping term must:
 
-where $\mathbf{m} = \mathbf{M}/M_s$ is the **unit magnetization vector** ($|\mathbf{m}| = 1$).
+1. Lower the energy, $dE/dt \le 0$.
+2. Preserve $|\mathbf{m}| = 1$, so it must be perpendicular to **m**.
+3. Vanish at equilibrium, when $\mathbf{m}\parallel\mathbf{H}_{\text{eff}}$.
 
-The total energy $\mathcal{E}$ typically includes:
-- **Exchange energy**: $\mathcal{E}_{\text{ex}} = A (\nabla \mathbf{m})^2$ (favors parallel alignment)
-- **Anisotropy energy**: $\mathcal{E}_{\text{anis}} = K (1 - (\mathbf{m} \cdot \hat{\mathbf{n}})^2)$ (favors easy axis)
-- **Zeeman energy**: $\mathcal{E}_{\text{Z}} = -\mu_0 M_s \mathbf{m} \cdot \mathbf{H}_{\text{ext}}$ (favors alignment with external field)
-- **Demagnetization energy**: $\mathcal{E}_{\text{demag}} = -\frac{1}{2}\mu_0 M_s \mathbf{m} \cdot \mathbf{H}_{\text{d}}$ (shape-dependent)
+Define the part of the field perpendicular to **m**:
 
-So the undamped equation becomes:
+$$
+\mathbf{H}_\perp \equiv \mathbf{H}_{\text{eff}} - \mathbf{m}\,(\mathbf{m}\cdot\mathbf{H}_{\text{eff}})
+$$
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}}$$
+Using $\mathbf{a}\times(\mathbf{b}\times\mathbf{c}) = \mathbf{b}(\mathbf{a}\cdot\mathbf{c}) - \mathbf{c}(\mathbf{a}\cdot\mathbf{b})$ with $|\mathbf{m}|=1$:
 
----
+$$
+\mathbf{m}\times(\mathbf{m}\times\mathbf{H}_{\text{eff}}) = \mathbf{m}\,(\mathbf{m}\cdot\mathbf{H}_{\text{eff}}) - \mathbf{H}_{\text{eff}} = -\mathbf{H}_\perp
+$$
 
-## 5. The Problem: No Damping
+$\mathbf{H}_\perp$ is tangent to the sphere and points from **m** toward $\mathbf{H}_{\text{eff}}$. The double cross product points the opposite way, **away** from the field. A damping term therefore needs a **minus** sign in front of $\mathbf{m}\times(\mathbf{m}\times\mathbf{H}_{\text{eff}})$.
 
-The undamped equation describes perpetual precession. In reality, magnetic moments **relax** toward equilibrium (aligned with $\mathbf{H}_{\text{eff}}$). Energy must be dissipated to the lattice (phonons).
+## 5. Landau–Lifshitz form (1935)
 
-Physically, damping arises from:
-- Spin-orbit coupling
-- Scattering with phonons, magnons, conduction electrons
-- Radiation of electromagnetic waves
+Landau and Lifshitz added a term along $\mathbf{H}_\perp$:
 
-We need a **damping term** that:
-1. Reduces the energy $E = -\boldsymbol{\mu} \cdot \mathbf{H}_{\text{eff}}$
-2. Preserves the magnitude $|\mathbf{M}| = M_s$
-3. Pushes $\mathbf{M}$ toward $\mathbf{H}_{\text{eff}}$
+$$
+\frac{\partial\mathbf{m}}{\partial t} = -\gamma_L\,\mathbf{m}\times\mathbf{H}_{\text{eff}} - \lambda\,\mathbf{m}\times(\mathbf{m}\times\mathbf{H}_{\text{eff}}), \qquad \lambda > 0
+$$
 
----
+Here λ has the same units as $\gamma_L$. Equivalently, $\partial\mathbf{m}/\partial t = -\gamma_L\,\mathbf{m}\times\mathbf{H}_{\text{eff}} + \lambda\,\mathbf{H}_\perp$.
 
-## 6. The Landau-Lifshitz Form (1935)
+### 5.1 Check: energy decreases
 
-Landau and Lifshitz proposed adding a damping term proportional to the component of $\mathbf{M}$ perpendicular to $\mathbf{H}_{\text{eff}}$. Define:
+Insert into the energy formula. The precession term drops out because $\mathbf{H}_{\text{eff}}\cdot(\mathbf{m}\times\mathbf{H}_{\text{eff}}) = 0$. The damping term gives
 
-$$\mathbf{M} = M_s \mathbf{m}, \quad |\mathbf{m}| = 1$$
+$$
+\frac{dE}{dt} = -\mu_0 M_s\lambda\int\mathbf{H}_{\text{eff}}\cdot\mathbf{H}_\perp\,dV = -\mu_0 M_s\lambda\int|\mathbf{H}_\perp|^2\,dV \;\le\; 0
+$$
 
-The **Landau-Lifshitz (LL) equation** is:
+using $\mathbf{H}_{\text{eff}}\cdot\mathbf{H}_\perp = H_{\text{eff}}^2 - (\mathbf{m}\cdot\mathbf{H}_{\text{eff}})^2 = |\mathbf{H}_\perp|^2$.
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} + \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$$
+### 5.2 Check: explicit example
 
-where $\lambda > 0$ is the **Landau-Lifshitz damping parameter**.
+Take $\mathbf{H}_{\text{eff}} = H\hat{\mathbf{z}}$ and $\mathbf{m} = (\sin\theta\cos\phi,\ \sin\theta\sin\phi,\ \cos\theta)$, evaluated at $\phi = 0$:
 
-### 6.1. Line-by-Line Analysis of the Damping Term
+$$
+\mathbf{m}\times\mathbf{H}_{\text{eff}} = H\,(0,\,-\sin\theta,\,0)
+$$
 
-Let's analyze the damping term:
+$$
+\mathbf{m}\times(\mathbf{m}\times\mathbf{H}_{\text{eff}}) = H\,(\sin\theta\cos\theta,\ 0,\ -\sin^2\theta)
+$$
 
-$$\mathbf{T}_{\text{damp}} = \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$$
-
-Use the vector triple product identity:
-
-$$\mathbf{a} \times (\mathbf{b} \times \mathbf{c}) = \mathbf{b}(\mathbf{a} \cdot \mathbf{c}) - \mathbf{c}(\mathbf{a} \cdot \mathbf{b})$$
-
-Set $\mathbf{a} = \mathbf{M}$, $\mathbf{b} = \mathbf{M}$, $\mathbf{c} = \mathbf{H}_{\text{eff}}$:
-
-$$\mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}}) = \mathbf{M}(\mathbf{M} \cdot \mathbf{H}_{\text{eff}}) - \mathbf{H}_{\text{eff}}(\mathbf{M} \cdot \mathbf{M})$$
-
-$$= \mathbf{M}(\mathbf{M} \cdot \mathbf{H}_{\text{eff}}) - M_s^2 \mathbf{H}_{\text{eff}}$$
-
-So:
-
-$$\mathbf{T}_{\text{damp}} = \frac{\lambda}{M_s^2} \left[ \mathbf{M}(\mathbf{M} \cdot \mathbf{H}_{\text{eff}}) - M_s^2 \mathbf{H}_{\text{eff}} \right]$$
-
-$$= \lambda \left[ \frac{\mathbf{M}(\mathbf{M} \cdot \mathbf{H}_{\text{eff}})}{M_s^2} - \mathbf{H}_{\text{eff}} \right]$$
-
-$$= -\lambda \left[ \mathbf{H}_{\text{eff}} - \mathbf{m}(\mathbf{m} \cdot \mathbf{H}_{\text{eff}}) \right]$$
-
-$$= -\lambda \mathbf{H}_{\text{eff}}^{\perp}$$
-
-where $\mathbf{H}_{\text{eff}}^{\perp} = \mathbf{H}_{\text{eff}} - \mathbf{m}(\mathbf{m} \cdot \mathbf{H}_{\text{eff}})$ is the component of $\mathbf{H}_{\text{eff}}$ **perpendicular** to $\mathbf{M}$.
-
-### 6.2. Why This Damps the Motion
-
-The damping term points in the direction $-\mathbf{H}_{\text{eff}}^{\perp}$, which is exactly the direction that pushes $\mathbf{M}$ toward $\mathbf{H}_{\text{eff}}$ while staying on the sphere $|\mathbf{M}| = M_s$.
-
-To verify energy dissipation, compute:
-
-$$\frac{dE}{dt} = -\mu_0 M_s \mathbf{H}_{\text{eff}} \cdot \frac{d\mathbf{m}}{dt}$$
-
-(using $E = -\boldsymbol{\mu} \cdot \mathbf{H}_{\text{eff}}$ and $\boldsymbol{\mu} = \mu_0 V \mathbf{M}$ in SI units).
-
-The precession term $\gamma \mathbf{M} \times \mathbf{H}_{\text{eff}}$ is perpendicular to $\mathbf{H}_{\text{eff}}$, so it doesn't change the energy. Only the damping term contributes:
-
-$$\frac{dE}{dt} \propto -\mathbf{H}_{\text{eff}} \cdot \mathbf{T}_{\text{damp}} = -\lambda \mathbf{H}_{\text{eff}} \cdot \left[ \frac{\mathbf{M}(\mathbf{M} \cdot \mathbf{H}_{\text{eff}})}{M_s^2} - \mathbf{H}_{\text{eff}} \right]$$
-
-$$= -\lambda \left[ \frac{(\mathbf{M} \cdot \mathbf{H}_{\text{eff}})^2}{M_s^2} - H_{\text{eff}}^2 \right]$$
-
-$$= \lambda \left[ H_{\text{eff}}^2 - \frac{(\mathbf{M} \cdot \mathbf{H}_{\text{eff}})^2}{M_s^2} \right]$$
-
-$$= \lambda |\mathbf{H}_{\text{eff}}^{\perp}|^2 \geq 0$$
-
-Wait — this gives $dE/dt \geq 0$? Let me check the sign. Actually, the energy should decrease. The issue is the sign convention for $E$. If $E = -\mu_0 M_s \mathbf{m} \cdot \mathbf{H}_{\text{eff}}$, then:
-
-$$\frac{dE}{dt} = -\mu_0 M_s \mathbf{H}_{\text{eff}} \cdot \frac{d\mathbf{m}}{dt} - \mu_0 M_s \mathbf{m} \cdot \frac{d\mathbf{H}_{\text{eff}}}{dt}$$
-
-Assuming $\mathbf{H}_{\text{eff}}$ is constant:
-
-$$\frac{dE}{dt} = -\mu_0 M_s \mathbf{H}_{\text{eff}} \cdot \frac{d\mathbf{m}}{dt}$$
-
-Now $\frac{d\mathbf{m}}{dt} = \frac{1}{M_s}\frac{d\mathbf{M}}{dt}$, so:
-
-$$\frac{dE}{dt} = -\mu_0 \mathbf{H}_{\text{eff}} \cdot \left[ \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} + \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}}) \right]$$
-
-The first term: $\mathbf{H}_{\text{eff}} \cdot (\mathbf{M} \times \mathbf{H}_{\text{eff}}) = 0$.
-
-The second term:
-
-$$-\mu_0 \mathbf{H}_{\text{eff}} \cdot \left[ \frac{\lambda}{M_s^2} (\mathbf{M}(\mathbf{M}\cdot\mathbf{H}_{\text{eff}}) - M_s^2 \mathbf{H}_{\text{eff}}) \right]$$
-
-$$= -\frac{\mu_0 \lambda}{M_s^2} \left[ (\mathbf{M}\cdot\mathbf{H}_{\text{eff}})^2 - M_s^2 H_{\text{eff}}^2 \right]$$
-
-$$= \frac{\mu_0 \lambda}{M_s^2} \left[ M_s^2 H_{\text{eff}}^2 - (\mathbf{M}\cdot\mathbf{H}_{\text{eff}})^2 \right]$$
-
-$$= \mu_0 \lambda \left[ H_{\text{eff}}^2 - (\mathbf{m}\cdot\mathbf{H}_{\text{eff}})^2 \right]$$
-
-$$= \mu_0 \lambda |\mathbf{H}_{\text{eff}}^{\perp}|^2 \geq 0$$
-
-But energy should decrease! The resolution is that the equilibrium state has $\mathbf{M}$ **parallel** to $\mathbf{H}_{\text{eff}}$, which minimizes $E = -\mu_0 M_s \mathbf{m} \cdot \mathbf{H}_{\text{eff}}$. When $\mathbf{M}$ moves toward $\mathbf{H}_{\text{eff}}$, the dot product $\mathbf{m} \cdot \mathbf{H}_{\text{eff}}$ increases (becomes less negative if $\gamma < 0$), so $E$ becomes more negative, meaning $E$ decreases.
-
-Actually, I need to be more careful. Let's say $\mathbf{H}_{\text{eff}}$ points in the $+z$ direction. Then $E = -\mu_0 M_s H_{\text{eff}} m_z$. The minimum energy is at $m_z = +1$. The damping term pushes $\mathbf{M}$ toward $+z$, so $m_z$ increases, $E$ decreases (becomes more negative).
-
-But my calculation gave $dE/dt \geq 0$. The error is that I defined $E$ with the wrong sign for the torque derivation. Let me use the proper micromagnetic energy functional:
-
-$$\mathcal{E} = -\mu_0 \int \mathbf{M} \cdot \mathbf{H}_{\text{eff}} \, dV$$
-
-Actually, the standard definition is that $\mathbf{H}_{\text{eff}} = -\frac{1}{\mu_0}\frac{\delta \mathcal{E}}{\delta \mathbf{M}}$, so:
-
-$$\frac{d\mathcal{E}}{dt} = \int \frac{\delta \mathcal{E}}{\delta \mathbf{M}} \cdot \frac{\partial \mathbf{M}}{\partial t} \, dV = -\mu_0 \int \mathbf{H}_{\text{eff}} \cdot \frac{\partial \mathbf{M}}{\partial t} \, dV$$
-
-Now substitute the LL equation:
-
-$$\frac{d\mathcal{E}}{dt} = -\mu_0 \int \mathbf{H}_{\text{eff}} \cdot \left[ \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} + \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}}) \right] dV$$
-
-First term: $\mathbf{H}_{\text{eff}} \cdot (\mathbf{M} \times \mathbf{H}_{\text{eff}}) = 0$.
-
-Second term:
-
-$$-\frac{\mu_0 \lambda}{M_s^2} \mathbf{H}_{\text{eff}} \cdot [\mathbf{M}(\mathbf{M}\cdot\mathbf{H}_{\text{eff}}) - M_s^2 \mathbf{H}_{\text{eff}}]$$
-
-$$= -\frac{\mu_0 \lambda}{M_s^2} [(\mathbf{M}\cdot\mathbf{H}_{\text{eff}})^2 - M_s^2 H_{\text{eff}}^2]$$
-
-$$= \mu_0 \lambda [H_{\text{eff}}^2 - (\mathbf{m}\cdot\mathbf{H}_{\text{eff}})^2]$$
-
-$$= \mu_0 \lambda |\mathbf{H}_{\text{eff}}^{\perp}|^2 \geq 0$$
-
-So $d\mathcal{E}/dt \geq 0$? But energy should decrease as the system approaches equilibrium...
-
-Ah, I see the confusion. In the LL equation, if $\gamma < 0$, the precession direction matters. Let me think about this more carefully.
-
-Actually, the issue is simpler: the damping term as written **does** cause energy decrease, but my sign convention for $\mathcal{E}$ might be flipped. In many texts, the energy decreases because the damping term is constructed to do so. Let me verify with a concrete example.
-
-Suppose $\mathbf{H}_{\text{eff}} = H_0 \hat{\mathbf{z}}$, and $\mathbf{M}$ is tilted slightly: $\mathbf{M} = M_s(\sin\theta, 0, \cos\theta)$ with small $\theta > 0$.
-
-Then $\mathbf{M} \times \mathbf{H}_{\text{eff}} = M_s H_0 (\sin\theta, 0, \cos\theta) \times (0, 0, 1) = M_s H_0 (\sin\theta \cdot 0 - \cos\theta \cdot 0, \cos\theta \cdot 0 - \sin\theta \cdot 1, \sin\theta \cdot 0 - 0 \cdot 0) = M_s H_0 (0, -\sin\theta, 0)$
-
-Wait: $(a,b,c) \times (0,0,1) = (b\cdot 1 - c\cdot 0, c\cdot 0 - a\cdot 1, a\cdot 0 - b\cdot 0) = (b, -a, 0)$.
-
-So $\mathbf{M} \times \mathbf{H}_{\text{eff}} = M_s H_0 (0, -\sin\theta, 0)$.
-
-And $\mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}}) = M_s^2 H_0 (\sin\theta, 0, \cos\theta) \times (0, -\sin\theta, 0) = M_s^2 H_0 (\cos\theta \cdot (-\sin\theta) - 0 \cdot 0, 0 \cdot 0 - \sin\theta \cdot 0, \sin\theta \cdot (-\sin\theta) - 0 \cdot 0) = M_s^2 H_0 (-\sin\theta\cos\theta, 0, -\sin^2\theta)$
-
-Wait, let me recalculate: $(a,b,c) \times (d,e,f) = (bf-ce, cd-af, ae-bd)$.
-
-So $(\sin\theta, 0, \cos\theta) \times (0, -\sin\theta, 0) = (0\cdot 0 - \cos\theta \cdot (-\sin\theta), \cos\theta \cdot 0 - \sin\theta \cdot 0, \sin\theta \cdot (-\sin\theta) - 0 \cdot 0) = (\sin\theta\cos\theta, 0, -\sin^2\theta)$.
-
-So $\mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}}) = M_s^2 H_0 (\sin\theta\cos\theta, 0, -\sin^2\theta)$.
-
-The LL equation gives:
-
-$$\frac{d\mathbf{M}}{dt} = \gamma M_s H_0 (0, -\sin\theta, 0) + \lambda H_0 (\sin\theta\cos\theta, 0, -\sin^2\theta)$$
-
-In spherical coordinates for $\mathbf{m} = (\sin\theta\cos\phi, \sin\theta\sin\phi, \cos\theta)$, with $\phi = 0$:
-
-$$\frac{d\mathbf{M}}{dt} = M_s \frac{d\mathbf{m}}{dt} = M_s (\dot{\theta}\cos\theta, 0, -\dot{\theta}\sin\theta)$$
+$$
+\frac{d\mathbf{m}}{dt} = (\dot\theta\cos\theta,\ \dot\phi\sin\theta,\ -\dot\theta\sin\theta)
+$$
 
 Comparing components:
-- $x$: $M_s \dot{\theta}\cos\theta = \lambda H_0 \sin\theta\cos\theta \implies \dot{\theta} = \frac{\lambda H_0}{M_s} \sin\theta$
-- $y$: $0 = -\gamma M_s H_0 \sin\theta$ (This should give precession in $\phi$, but with $\phi=0$ initially, we need to be careful)
-- $z$: $-M_s \dot{\theta}\sin\theta = -\lambda H_0 \sin^2\theta \implies \dot{\theta} = \frac{\lambda H_0}{M_s} \sin\theta$
 
-So $\dot{\theta} = \frac{\lambda H_0}{M_s} \sin\theta > 0$ for small $\theta$. This means $\theta$ **increases**, not decreases! The magnetization moves **away** from the field!
+- y: $\dot\phi\sin\theta = \gamma_L H\sin\theta \;\Rightarrow\; \dot\phi = \gamma_L H$ (precession)
+- z: $-\dot\theta\sin\theta = \lambda H\sin^2\theta \;\Rightarrow\; \dot\theta = -\lambda H\sin\theta$ (relaxation)
 
-This reveals a critical sign error in my analysis. The standard LL equation actually has the damping term with a **negative** sign in some conventions, or the definition of $\lambda$ absorbs the sign.
+The x-component gives the same $\dot\theta$. Since $\dot\theta < 0$ for $0<\theta<\pi$, the angle to the field shrinks, as required.
 
-Let me check the standard form. The original Landau-Lifshitz equation is:
+### 5.3 The defect
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} + \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$$
+The relaxation rate is $\lambda H$, which grows without bound as λ increases. Infinite friction producing infinitely fast motion is unphysical, so the LL form is only trustworthy for small damping.
 
-But with $\gamma < 0$, the precession is in one direction, and the damping should push toward alignment. In my calculation, with $\lambda > 0$, the damping pushes away. This means either:
-1. $\lambda$ should have the opposite sign, or
-2. The damping term should have a minus sign.
+## 6. Gilbert form (1955)
 
-Actually, looking at standard references, the LL damping term is often written as:
+Gilbert introduced damping as a viscous force: a dissipative field proportional to the velocity of **m** and opposing it. Replace
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} - \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$$
+$$
+\mathbf{H}_{\text{eff}} \;\longrightarrow\; \mathbf{H}_{\text{eff}} - \frac{\alpha}{\gamma_0}\frac{\partial\mathbf{m}}{\partial t}, \qquad \alpha > 0
+$$
 
-Or equivalently, with $\gamma < 0$ and $\lambda > 0$, the term as originally written by Landau and Lifshitz has $\lambda$ as a phenomenological parameter that could be negative, or the cross product is evaluated differently.
+in the undamped equation:
 
-Let me be very precise. The **Gilbert** form is more commonly used today, and it avoids this ambiguity. But to be historically accurate, Landau and Lifshitz wrote:
+$$
+\frac{\partial\mathbf{m}}{\partial t} = -\gamma_0\,\mathbf{m}\times\left(\mathbf{H}_{\text{eff}} - \frac{\alpha}{\gamma_0}\frac{\partial\mathbf{m}}{\partial t}\right)
+$$
 
-$$\frac{d\mathbf{M}}{dt} = \gamma [\mathbf{M} \times \mathbf{H}_{\text{eff}}] + \frac{\lambda}{M^2} [\mathbf{M} \times [\mathbf{M} \times \mathbf{H}_{\text{eff}}]]$$
+$$
+\boxed{\;\frac{\partial\mathbf{m}}{\partial t} = -\gamma_0\,\mathbf{m}\times\mathbf{H}_{\text{eff}} + \alpha\,\mathbf{m}\times\frac{\partial\mathbf{m}}{\partial t}\;}
+$$
 
-where $\lambda$ is a damping constant. In their original paper, $\gamma$ was taken as positive (they considered the magnitude), and the damping term indeed causes relaxation toward equilibrium with the correct choice of $\lambda > 0$ when the full vector algebra is done carefully with the proper sign of $\gamma$.
+This is the LLG equation in implicit (Gilbert) form. In terms of **M** it reads $d\mathbf{M}/dt = -\gamma_0\,\mathbf{M}\times\mathbf{H}_{\text{eff}} + (\alpha/M_s)\,\mathbf{M}\times d\mathbf{M}/dt$.
 
-Actually, the resolution is that in the original LL paper, they used $\gamma = g|e|/2mc > 0$ (the magnitude), and wrote:
+### 6.1 Solving for the time derivative
 
-$$\frac{d\mathbf{M}}{dt} = -\gamma \mathbf{M} \times \mathbf{H} + \frac{\lambda}{M^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H})$$
+Write $\mathbf{v} = \partial\mathbf{m}/\partial t$ and $\mathbf{T} = -\gamma_0\,\mathbf{m}\times\mathbf{H}_{\text{eff}}$, so the equation is
 
-with the minus sign explicitly included for the electron's negative charge. In modern notation, we absorb the minus sign into $\gamma < 0$, so:
+$$
+\mathbf{v} = \mathbf{T} + \alpha\,\mathbf{m}\times\mathbf{v}
+$$
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} + \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$$
+Step 1. Dot with **m**: both terms on the right are perpendicular to **m**, so $\mathbf{m}\cdot\mathbf{v} = 0$. The magnitude is still conserved.
 
-with $\gamma < 0$ and $\lambda > 0$. But my calculation showed this pushes $\mathbf{M}$ away from $\mathbf{H}$. Let me recheck the cross product.
+Step 2. Cross with **m** from the left:
 
-$\mathbf{M} = M_s(\sin\theta, 0, \cos\theta)$, $\mathbf{H} = H_0(0,0,1)$.
+$$
+\mathbf{m}\times\mathbf{v} = \mathbf{m}\times\mathbf{T} + \alpha\,\mathbf{m}\times(\mathbf{m}\times\mathbf{v})
+$$
 
-$\mathbf{M} \times \mathbf{H} = M_s H_0 (\sin\theta, 0, \cos\theta) \times (0,0,1) = M_s H_0 (0\cdot 1 - \cos\theta \cdot 0, \cos\theta \cdot 0 - \sin\theta \cdot 1, \sin\theta \cdot 0 - 0 \cdot 0) = M_s H_0 (0, -\sin\theta, 0)$.
+Step 3. Expand the double cross product, using $\mathbf{m}\cdot\mathbf{v} = 0$:
 
-So $\gamma \mathbf{M} \times \mathbf{H} = \gamma M_s H_0 (0, -\sin\theta, 0)$. With $\gamma < 0$, this is $(0, |\gamma| M_s H_0 \sin\theta, 0)$, which is in the $+y$ direction.
+$$
+\mathbf{m}\times(\mathbf{m}\times\mathbf{v}) = \mathbf{m}\,(\mathbf{m}\cdot\mathbf{v}) - \mathbf{v} = -\mathbf{v}
+$$
 
-Now $\mathbf{M} \times (\mathbf{M} \times \mathbf{H}) = M_s^2 H_0 (\sin\theta\cos\theta, 0, -\sin^2\theta)$ as calculated.
+$$
+\mathbf{m}\times\mathbf{v} = \mathbf{m}\times\mathbf{T} - \alpha\,\mathbf{v}
+$$
 
-The $z$-component of the full equation:
-$$\frac{dM_z}{dt} = 0 + \frac{\lambda}{M_s^2} (-M_s^2 H_0 \sin^2\theta) = -\lambda H_0 \sin^2\theta$$
+Step 4. Substitute this back into the original equation:
 
-Since $M_z = M_s \cos\theta$, we have $\frac{dM_z}{dt} = -M_s \sin\theta \frac{d\theta}{dt}$.
+$$
+\mathbf{v} = \mathbf{T} + \alpha\,\mathbf{m}\times\mathbf{T} - \alpha^2\mathbf{v}
+$$
 
-So:
-$$-M_s \sin\theta \frac{d\theta}{dt} = -\lambda H_0 \sin^2\theta$$
+$$
+\mathbf{v} = \frac{\mathbf{T} + \alpha\,\mathbf{m}\times\mathbf{T}}{1+\alpha^2}
+$$
 
-$$\frac{d\theta}{dt} = \frac{\lambda H_0}{M_s} \sin\theta$$
+Step 5. Restore $\mathbf{T} = -\gamma_0\,\mathbf{m}\times\mathbf{H}_{\text{eff}}$:
 
-For small $\theta > 0$, $d\theta/dt > 0$, so $\theta$ increases. This means $M_z = M_s \cos\theta$ decreases. The magnetization moves away from the $+z$ axis!
+$$
+\boxed{\;\frac{\partial\mathbf{m}}{\partial t} = -\frac{\gamma_0}{1+\alpha^2}\,\mathbf{m}\times\mathbf{H}_{\text{eff}} - \frac{\alpha\gamma_0}{1+\alpha^2}\,\mathbf{m}\times(\mathbf{m}\times\mathbf{H}_{\text{eff}})\;}
+$$
 
-This is clearly wrong. The issue is that $\mathbf{M} \times (\mathbf{M} \times \mathbf{H})$ points in the direction that pushes $\mathbf{M}$ away from $\mathbf{H}$, not toward it.
+This is the explicit form, the one integrated numerically. The damping term carries the minus sign that section 4 requires.
 
-Wait, let me visualize. $\mathbf{M}$ is at angle $\theta$ from $z$. $\mathbf{M} \times \mathbf{H}$ is perpendicular to both, in the $-y$ direction (for $\gamma > 0$ convention). Then $\mathbf{M} \times (\mathbf{M} \times \mathbf{H})$ is perpendicular to $\mathbf{M}$ and $(\mathbf{M} \times \mathbf{H})$. Using the right-hand rule, this points in the plane containing $\mathbf{M}$ and $\mathbf{H}$, perpendicular to $\mathbf{M}$, toward the $-z$ direction (away from $\mathbf{H}$ for small $\theta$).
+## 7. Equivalence of the two forms
 
-Yes! The vector triple product $\mathbf{M} \times (\mathbf{M} \times \mathbf{H})$ points in the direction $-\mathbf{H}_{\perp}$, which is away from $\mathbf{H}$. So to get damping (pushing toward $\mathbf{H}$), we need a **minus sign**:
+The explicit Gilbert form has exactly the Landau–Lifshitz structure, with
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} - \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$$
+$$
+\gamma_L = \frac{\gamma_0}{1+\alpha^2}, \qquad \lambda = \frac{\alpha\gamma_0}{1+\alpha^2}
+$$
 
-This is the correct form! Many texts write it this way, or define $\lambda$ with the appropriate sign. Let me verify with the $z$-component:
+and conversely
 
-$$\frac{dM_z}{dt} = 0 - \frac{\lambda}{M_s^2} (-M_s^2 H_0 \sin^2\theta) = +\lambda H_0 \sin^2\theta$$
+$$
+\alpha = \frac{\lambda}{\gamma_L}, \qquad \gamma_0 = \gamma_L\,(1+\alpha^2)
+$$
 
-$$-M_s \sin\theta \frac{d\theta}{dt} = \lambda H_0 \sin^2\theta$$
+The two equations are mathematically equivalent but treat the constants differently:
 
-$$\frac{d\theta}{dt} = -\frac{\lambda H_0}{M_s} \sin\theta$$
+| | Landau–Lifshitz (fixed $\gamma_L$, vary λ) | Gilbert (fixed $\gamma_0$, vary α) |
+| --- | --- | --- |
+| Precession rate | $\gamma_L H$, independent of damping | $\gamma_0 H/(1+\alpha^2)$, slowed by damping |
+| Relaxation rate | $\lambda H$, unbounded | $\alpha\gamma_0 H/(1+\alpha^2)$, maximal at α = 1 |
+| Strong-damping limit | Infinitely fast relaxation | Motion freezes |
 
-Now for small $\theta > 0$, $d\theta/dt < 0$, so $\theta$ decreases. $M_z$ increases. The magnetization aligns with the field. Correct!
+For $\alpha\ll1$ they agree to first order in α. Gilbert's form is preferred because its large-damping behaviour is physical and α is dimensionless.
 
-So the **correct Landau-Lifshitz equation** is:
+## 8. Energy dissipation
 
-$$\boxed{\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} - \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})}$$
+From the implicit form, $\partial\mathbf{m}/\partial t = -\gamma_0\,\mathbf{m}\times\mathbf{H}_{\text{tot}}$ with $\mathbf{H}_{\text{tot}} = \mathbf{H}_{\text{eff}} - (\alpha/\gamma_0)\,\partial\mathbf{m}/\partial t$. A cross product is perpendicular to its factors, so
 
-with $\gamma < 0$ and $\lambda > 0$.
+$$
+\frac{\partial\mathbf{m}}{\partial t}\cdot\mathbf{H}_{\text{tot}} = 0 \quad\Rightarrow\quad \mathbf{H}_{\text{eff}}\cdot\frac{\partial\mathbf{m}}{\partial t} = \frac{\alpha}{\gamma_0}\left|\frac{\partial\mathbf{m}}{\partial t}\right|^2
+$$
 
----
+Insert into the energy formula of section 3:
 
-## 7. The Gilbert Form (1955)
+$$
+\frac{dE}{dt} = -\frac{\alpha\mu_0 M_s}{\gamma_0}\int\left|\frac{\partial\mathbf{m}}{\partial t}\right|^2 dV \;\le\; 0
+$$
 
-T.L. Gilbert proposed an alternative formulation that is more physically motivated and mathematically elegant. Instead of adding a damping torque, Gilbert introduced a **damped dynamics** by modifying the fundamental relation between angular momentum and torque.
+The loss rate is proportional to the squared velocity, as for viscous friction. The two terms of the explicit form are mutually perpendicular and each has magnitude proportional to $|\mathbf{H}_\perp|$, so $|\partial\mathbf{m}/\partial t|^2 = \gamma_0^2|\mathbf{H}_\perp|^2/(1+\alpha^2)$ and
 
-Recall the undamped equation:
+$$
+\frac{dE}{dt} = -\frac{\alpha\gamma_0\mu_0 M_s}{1+\alpha^2}\int|\mathbf{H}_\perp|^2\,dV
+$$
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}}$$
+The energy falls monotonically until $\mathbf{H}_\perp = 0$, that is, until **m** is parallel to $\mathbf{H}_{\text{eff}}$ everywhere.
 
-Gilbert proposed that the **effective field** seen by the precessing moment is not just $\mathbf{H}_{\text{eff}}$, but includes a term proportional to the rate of change of magnetization:
+## 9. Exact solution in a uniform static field
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \left( \mathbf{H}_{\text{eff}} - \frac{\alpha}{\gamma M_s} \frac{d\mathbf{M}}{dt} \right)$$
+With $\mathbf{H}_{\text{eff}} = H\hat{\mathbf{z}}$, the component comparison of section 5.2 applied to the explicit form gives
 
-where $\alpha > 0$ is the **dimensionless Gilbert damping parameter**.
+$$
+\dot\phi = \frac{\gamma_0 H}{1+\alpha^2}, \qquad \dot\theta = -\frac{\alpha\gamma_0 H}{1+\alpha^2}\sin\theta
+$$
 
-### 7.1. Expanding the Gilbert Form
+Integrating:
 
-Distribute the cross product:
+$$
+\phi(t) = \phi_0 + \frac{\gamma_0 H}{1+\alpha^2}\,t, \qquad \tan\frac{\theta(t)}{2} = \tan\frac{\theta_0}{2}\;e^{-t/\tau}, \qquad \tau = \frac{1+\alpha^2}{\alpha\gamma_0 H}
+$$
 
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} - \frac{\alpha}{M_s} \mathbf{M} \times \frac{d\mathbf{M}}{dt}$$
+**m** spirals in toward the field.
 
-This is the **Gilbert equation**. Notice that the damping term is proportional to $\mathbf{M} \times \frac{d\mathbf{M}}{dt}$, not $\mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$. The damping depends on the velocity of the magnetization, which is more physically intuitive (like viscous damping).
+- **Small damping, $\alpha\ll1$:** $\tau\approx1/(\alpha\gamma_0H)$. About $1/(2\pi\alpha)$ precession turns occur per relaxation time.
+- **Large damping, $\alpha\gg1$:** precession rate $\approx\gamma_0H/\alpha^2$ and relaxation rate $\approx\gamma_0H/\alpha$. The motion is almost purely relaxational and slow.
+- **Fastest relaxation:** τ is minimal at α = 1, where $\tau = 2/(\gamma_0H)$.
 
-### 7.2. Solving for $\frac{d\mathbf{M}}{dt}$
+## 10. Current-induced torques
 
-The Gilbert equation is **implicit** — the derivative appears on both sides. We need to solve for $\frac{d\mathbf{M}}{dt}$ explicitly.
+A spin current polarized along the unit vector **p** adds two torques:
 
-Write:
+$$
+\frac{\partial\mathbf{m}}{\partial t} = -\gamma_0\,\mathbf{m}\times\mathbf{H}_{\text{eff}} + \alpha\,\mathbf{m}\times\frac{\partial\mathbf{m}}{\partial t} - \gamma_0 a_J\,\mathbf{m}\times(\mathbf{m}\times\mathbf{p}) - \gamma_0 b_J\,\mathbf{m}\times\mathbf{p}
+$$
 
-$$\frac{d\mathbf{M}}{dt} + \frac{\alpha}{M_s} \mathbf{M} \times \frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}}$$
+- **Damping-like (Slonczewski) torque,** strength $a_J$ in A/m. Since $-\mathbf{m}\times(\mathbf{m}\times\mathbf{p}) = \mathbf{p} - \mathbf{m}(\mathbf{m}\cdot\mathbf{p})$, it pushes **m** toward **p** for $a_J>0$. Depending on current direction it adds to or opposes the Gilbert damping.
+- **Field-like torque,** strength $b_J$ in A/m. It acts like an extra field $b_J\mathbf{p}$.
 
-This is a vector equation of the form:
+The same two forms describe spin-transfer torque and spin–orbit torque; only the expressions for $a_J$, $b_J$ and **p** differ. Sign conventions for these coefficients vary between papers and codes.
 
-$$\mathbf{v} + \frac{\alpha}{M_s} \mathbf{M} \times \mathbf{v} = \mathbf{T}$$
+## 11. Summary
 
-where $\mathbf{v} = \frac{d\mathbf{M}}{dt}$ and $\mathbf{T} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}}$.
+| Step | Result |
+| --- | --- |
+| Torque | $\boldsymbol{\tau} = \mu_0\,\boldsymbol{\mu}\times\mathbf{H}$ |
+| Gyromagnetic relation | $\boldsymbol{\mu} = -\gamma\mathbf{L}$ |
+| Undamped precession | $\partial_t\mathbf{m} = -\gamma_0\,\mathbf{m}\times\mathbf{H}_{\text{eff}}$ |
+| Landau–Lifshitz | $\partial_t\mathbf{m} = -\gamma_L\,\mathbf{m}\times\mathbf{H}_{\text{eff}} - \lambda\,\mathbf{m}\times(\mathbf{m}\times\mathbf{H}_{\text{eff}})$ |
+| Gilbert (implicit) | $\partial_t\mathbf{m} = -\gamma_0\,\mathbf{m}\times\mathbf{H}_{\text{eff}} + \alpha\,\mathbf{m}\times\partial_t\mathbf{m}$ |
+| Gilbert (explicit) | $\partial_t\mathbf{m} = -\dfrac{\gamma_0}{1+\alpha^2}\left[\mathbf{m}\times\mathbf{H}_{\text{eff}} + \alpha\,\mathbf{m}\times(\mathbf{m}\times\mathbf{H}_{\text{eff}})\right]$ |
+| Mapping | $\gamma_L = \gamma_0/(1+\alpha^2)$, $\lambda = \alpha\gamma_0/(1+\alpha^2)$ |
+| Dissipation | $dE/dt = -(\alpha\mu_0M_s/\gamma_0)\int\lvert\partial_t\mathbf{m}\rvert^2\,dV\le 0$ |
 
-To solve for $\mathbf{v}$, we use a standard vector identity. For any vectors $\mathbf{a}$, $\mathbf{b}$, $\mathbf{c}$ with $\mathbf{b} = \mathbf{M}$ and $|\mathbf{m}| = 1$:
+## 12. Limits of validity
 
-If $\mathbf{v} + \eta \mathbf{m} \times \mathbf{v} = \mathbf{T}$, then taking the cross product with $\mathbf{m}$:
-
-$$\mathbf{m} \times \mathbf{v} + \eta \mathbf{m} \times (\mathbf{m} \times \mathbf{v}) = \mathbf{m} \times \mathbf{T}$$
-
-$$\mathbf{m} \times \mathbf{v} + \eta [\mathbf{m}(\mathbf{m}\cdot\mathbf{v}) - \mathbf{v}] = \mathbf{m} \times \mathbf{T}$$
-
-Since $|\mathbf{M}| = M_s$ is constant, $\mathbf{M} \cdot \frac{d\mathbf{M}}{dt} = 0$, so $\mathbf{m} \cdot \mathbf{v} = 0$. Thus:
-
-$$\mathbf{m} \times \mathbf{v} - \eta \mathbf{v} = \mathbf{m} \times \mathbf{T}$$
-
-From the original equation: $\mathbf{m} \times \mathbf{v} = \frac{1}{\eta}(\mathbf{T} - \mathbf{v})$. Substitute:
-
-$$\frac{1}{\eta}(\mathbf{T} - \mathbf{v}) - \eta \mathbf{v} = \mathbf{m} \times \mathbf{T}$$
-
-$$\frac{1}{\eta}\mathbf{T} - \frac{1}{\eta}\mathbf{v} - \eta \mathbf{v} = \mathbf{m} \times \mathbf{T}$$
-
-$$\mathbf{T} - (1 + \eta^2)\mathbf{v} = \eta \mathbf{m} \times \mathbf{T}$$
-
-$$(1 + \eta^2)\mathbf{v} = \mathbf{T} - \eta \mathbf{m} \times \mathbf{T}$$
-
-$$\mathbf{v} = \frac{1}{1+\eta^2} [\mathbf{T} - \eta \mathbf{m} \times \mathbf{T}]$$
-
-With $\eta = \alpha$ (since we have $\frac{\alpha}{M_s} \mathbf{M} \times \mathbf{v} = \alpha \mathbf{m} \times \mathbf{v}$, so $\eta = \alpha$):
-
-$$\frac{d\mathbf{M}}{dt} = \frac{1}{1+\alpha^2} \left[ \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} - \alpha \mathbf{m} \times (\gamma \mathbf{M} \times \mathbf{H}_{\text{eff}}) \right]$$
-
-$$= \frac{\gamma}{1+\alpha^2} \left[ \mathbf{M} \times \mathbf{H}_{\text{eff}} - \frac{\alpha}{M_s} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}}) \right]$$
-
-$$= \frac{\gamma}{1+\alpha^2} \mathbf{M} \times \mathbf{H}_{\text{eff}} - \frac{\gamma \alpha}{M_s(1+\alpha^2)} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$$
-
-This is the **explicit Gilbert equation**.
-
----
-
-## 8. Equivalence of LL and Gilbert Forms
-
-Compare the explicit Gilbert form with the Landau-Lifshitz form:
-
-**Landau-Lifshitz:**
-$$\frac{d\mathbf{M}}{dt} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} - \frac{\lambda}{M_s^2} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$$
-
-**Gilbert (explicit):**
-$$\frac{d\mathbf{M}}{dt} = \frac{\gamma}{1+\alpha^2} \mathbf{M} \times \mathbf{H}_{\text{eff}} - \frac{\gamma \alpha}{M_s(1+\alpha^2)} \mathbf{M} \times (\mathbf{M} \times \mathbf{H}_{\text{eff}})$$
-
-These are mathematically equivalent if we identify:
-
-$$\gamma_{\text{LL}} = \frac{\gamma}{1+\alpha^2}$$
-
-$$\lambda = \frac{|\gamma| \alpha M_s}{1+\alpha^2}$$
-
-Or conversely:
-
-$$\gamma = \gamma_{\text{LL}}(1+\alpha^2)$$
-
-$$\alpha = \frac{\lambda}{|\gamma_{\text{LL}}| M_s}$$
-
-### 8.1. Physical Interpretation of the Renormalization
-
-In the Gilbert form, the **gyromagnetic ratio is renormalized** by damping:
-- The **bare** gyromagnetic ratio $\gamma$ appears in the Gilbert equation
-- The **effective** gyromagnetic ratio $\gamma_{\text{LL}} = \gamma/(1+\alpha^2)$ appears in the LL form
-
-As $\alpha \to 0$ (no damping), $\gamma_{\text{LL}} \to \gamma$.
-As $\alpha \to \infty$ (strong damping), $\gamma_{\text{LL}} \to 0$: precession is completely suppressed.
-
-In the Gilbert form, even with large $\alpha$, the precession frequency is reduced but the **bare** $\gamma$ remains unchanged in the equation structure. The Gilbert form is preferred because:
-1. $\alpha$ is dimensionless and directly measurable (typically $0.001$ to $0.1$)
-2. The damping is clearly a perturbation on the precession
-3. It generalizes more naturally to stochastic dynamics (LLB equation)
-
----
-
-## 9. The Standard LLG Equation (Modern Form)
-
-The modern convention combines both forms and writes the **Landau-Lifshitz-Gilbert equation** as:
-
-$$\boxed{\frac{\partial \mathbf{m}}{\partial t} = -\gamma_0 \mathbf{m} \times \mathbf{H}_{\text{eff}} + \alpha \mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t}}$$
-
-or equivalently:
-
-$$\frac{\partial \mathbf{m}}{\partial t} = -\frac{\gamma_0}{1+\alpha^2} \mathbf{m} \times \mathbf{H}_{\text{eff}} - \frac{\alpha \gamma_0}{1+\alpha^2} \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})$$
-
-where:
-- $\mathbf{m} = \mathbf{M}/M_s$ is the unit magnetization vector
-- $\gamma_0 = |\gamma| = g_e e / 2m_e \approx 1.76 \times 10^{11}$ rad·s⁻¹·T⁻¹ (positive magnitude)
-- The minus sign in the precession term accounts for the electron's negative charge
-- $\alpha$ is the Gilbert damping constant
-
-### 9.1. Term-by-Term Breakdown
-
-**Precession term:** $-\gamma_0 \mathbf{m} \times \mathbf{H}_{\text{eff}}$
-- This causes $\mathbf{m}$ to rotate around $\mathbf{H}_{\text{eff}}$
-- The angular frequency is $\omega = \gamma_0 H_{\text{eff}}$
-- Energy is conserved by this term alone
-
-**Damping term:** $\alpha \mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t}$
-- This is perpendicular to both $\mathbf{m}$ and $\frac{\partial \mathbf{m}}{\partial t}$
-- It pushes $\mathbf{m}$ toward $\mathbf{H}_{\text{eff}}$
-- It dissipates energy to the lattice
-
----
-
-## 10. Energy Dissipation in the Gilbert Form
-
-Let's verify that the Gilbert form dissipates energy. Using $\mathcal{E}$ as the total free energy:
-
-$$\frac{d\mathcal{E}}{dt} = \int \frac{\delta \mathcal{E}}{\delta \mathbf{M}} \cdot \frac{\partial \mathbf{M}}{\partial t} dV = -\mu_0 \int \mathbf{H}_{\text{eff}} \cdot \frac{\partial \mathbf{M}}{\partial t} dV$$
-
-From the Gilbert equation:
-
-$$\frac{\partial \mathbf{M}}{\partial t} = \gamma \mathbf{M} \times \mathbf{H}_{\text{eff}} + \alpha \mathbf{M} \times \frac{\partial \mathbf{M}}{\partial t}$$
-
-Wait, I need to be consistent. Let me use the form:
-
-$$\frac{\partial \mathbf{m}}{\partial t} = -\gamma_0 \mathbf{m} \times \mathbf{H}_{\text{eff}} + \alpha \mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t}$$
-
-with $\gamma_0 > 0$.
-
-Then $\frac{\partial \mathbf{M}}{\partial t} = M_s \frac{\partial \mathbf{m}}{\partial t}$, and:
-
-$$\frac{d\mathcal{E}}{dt} = -\mu_0 M_s \int \mathbf{H}_{\text{eff}} \cdot \left[ -\gamma_0 \mathbf{m} \times \mathbf{H}_{\text{eff}} + \alpha \mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t} \right] dV$$
-
-First term: $\mathbf{H}_{\text{eff}} \cdot (\mathbf{m} \times \mathbf{H}_{\text{eff}}) = 0$.
-
-Second term:
-
-$$-\mu_0 M_s \alpha \int \mathbf{H}_{\text{eff}} \cdot \left( \mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t} \right) dV$$
-
-Use the scalar triple product identity $\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = \mathbf{b} \cdot (\mathbf{c} \times \mathbf{a}) = \mathbf{c} \cdot (\mathbf{a} \times \mathbf{b})$:
-
-$$\mathbf{H}_{\text{eff}} \cdot \left( \mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t} \right) = \mathbf{m} \cdot \left( \frac{\partial \mathbf{m}}{\partial t} \times \mathbf{H}_{\text{eff}} \right) = \frac{\partial \mathbf{m}}{\partial t} \cdot (\mathbf{H}_{\text{eff}} \times \mathbf{m})$$
-
-From the Gilbert equation, rearrange:
-
-$$\frac{\partial \mathbf{m}}{\partial t} - \alpha \mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t} = -\gamma_0 \mathbf{m} \times \mathbf{H}_{\text{eff}}$$
-
-Take the cross product with $\mathbf{m}$:
-
-$$\mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t} - \alpha \mathbf{m} \times (\mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t}) = -\gamma_0 \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})$$
-
-Since $\mathbf{m} \cdot \frac{\partial \mathbf{m}}{\partial t} = 0$:
-
-$$\mathbf{m} \times (\mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t}) = \mathbf{m}(\mathbf{m} \cdot \frac{\partial \mathbf{m}}{\partial t}) - \frac{\partial \mathbf{m}}{\partial t} = -\frac{\partial \mathbf{m}}{\partial t}$$
-
-So:
-
-$$\mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t} + \alpha \frac{\partial \mathbf{m}}{\partial t} = -\gamma_0 \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})$$
-
-This is getting complicated. Let me use a simpler approach. From the explicit form:
-
-$$\frac{\partial \mathbf{m}}{\partial t} = -\frac{\gamma_0}{1+\alpha^2} \mathbf{m} \times \mathbf{H}_{\text{eff}} - \frac{\alpha \gamma_0}{1+\alpha^2} \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})$$
-
-Then:
-
-$$\frac{d\mathcal{E}}{dt} = -\mu_0 M_s \int \mathbf{H}_{\text{eff}} \cdot \frac{\partial \mathbf{m}}{\partial t} dV$$
-
-$$= -\mu_0 M_s \int \mathbf{H}_{\text{eff}} \cdot \left[ -\frac{\gamma_0}{1+\alpha^2} \mathbf{m} \times \mathbf{H}_{\text{eff}} - \frac{\alpha \gamma_0}{1+\alpha^2} \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}}) \right] dV$$
-
-First term is zero. Second term:
-
-$$= \frac{\mu_0 M_s \alpha \gamma_0}{1+\alpha^2} \int \mathbf{H}_{\text{eff}} \cdot [\mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})] dV$$
-
-$$= \frac{\mu_0 M_s \alpha \gamma_0}{1+\alpha^2} \int \mathbf{H}_{\text{eff}} \cdot [\mathbf{m}(\mathbf{m}\cdot\mathbf{H}_{\text{eff}}) - \mathbf{H}_{\text{eff}}] dV$$
-
-$$= \frac{\mu_0 M_s \alpha \gamma_0}{1+\alpha^2} \int [(\mathbf{m}\cdot\mathbf{H}_{\text{eff}})^2 - H_{\text{eff}}^2] dV$$
-
-$$= -\frac{\mu_0 M_s \alpha \gamma_0}{1+\alpha^2} \int |\mathbf{H}_{\text{eff}}^{\perp}|^2 dV \leq 0$$
-
-Since $\alpha > 0$, $\gamma_0 > 0$, $M_s > 0$, we have $d\mathcal{E}/dt \leq 0$. Energy decreases monotonically until $\mathbf{H}_{\text{eff}}^{\perp} = 0$, i.e., until $\mathbf{m}$ is parallel to $\mathbf{H}_{\text{eff}}$.
-
----
-
-## 11. Special Cases and Limits
-
-### 11.1. Small Damping ($\alpha \ll 1$)
-
-$$\frac{\partial \mathbf{m}}{\partial t} \approx -\gamma_0 \mathbf{m} \times \mathbf{H}_{\text{eff}} - \alpha \gamma_0 \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})$$
-
-The magnetization precesses many times before relaxing. The relaxation time $\tau \sim 1/(\alpha \gamma_0 H_{\text{eff}})$.
-
-### 11.2. Large Damping ($\alpha \gg 1$)
-
-$$\frac{\partial \mathbf{m}}{\partial t} \approx -\frac{\gamma_0}{\alpha} \mathbf{m} \times \mathbf{H}_{\text{eff}} - \frac{\gamma_0}{\alpha} \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}}) \cdot \alpha$$
-
-Actually, for $\alpha \gg 1$:
-
-$$\frac{\partial \mathbf{m}}{\partial t} \approx -\frac{\gamma_0}{\alpha} \mathbf{m} \times \mathbf{H}_{\text{eff}} - \frac{\gamma_0}{1} \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})$$
-
-Wait, let me recalculate:
-
-$$\frac{\partial \mathbf{m}}{\partial t} = -\frac{\gamma_0}{1+\alpha^2} \mathbf{m} \times \mathbf{H}_{\text{eff}} - \frac{\alpha \gamma_0}{1+\alpha^2} \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})$$
-
-For $\alpha \gg 1$:
-
-$$\approx -\frac{\gamma_0}{\alpha^2} \mathbf{m} \times \mathbf{H}_{\text{eff}} - \frac{\gamma_0}{\alpha} \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})$$
-
-The precession is strongly suppressed. The motion becomes almost purely relaxational, with velocity proportional to $1/\alpha$. This is the **overdamped limit**.
-
-### 11.3. Critical Damping
-
-There is no "critical damping" in the usual sense because the equation describes motion on a sphere, not a harmonic oscillator. However, the crossover from precession-dominated to relaxation-dominated occurs around $\alpha \sim 1$.
-
----
-
-## 12. The LLG Equation with Spin Transfer Torque
-
-In modern spintronics, when a spin-polarized current flows through a ferromagnet, it exerts a **spin transfer torque (STT)** on the magnetization. The LLG equation is generalized to:
-
-$$\frac{\partial \mathbf{m}}{\partial t} = -\gamma_0 \mathbf{m} \times \mathbf{H}_{\text{eff}} + \alpha \mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t} + \gamma_0 \beta (\mathbf{m} \times \mathbf{p}) \times \mathbf{m} + \gamma_0 \beta' \mathbf{m} \times \mathbf{p}$$
-
-where:
-- $\mathbf{p}$ is the spin polarization direction of the current
-- $\beta$ parameterizes the **Slonczewski torque** (in-plane, damping-like)
-- $\beta'$ parameterizes the **field-like torque**
-
-The Slonczewski torque $\gamma_0 \beta (\mathbf{m} \times \mathbf{p}) \times \mathbf{m} = \gamma_0 \beta [\mathbf{p} - \mathbf{m}(\mathbf{m}\cdot\mathbf{p})]$ pushes $\mathbf{m}$ toward $\mathbf{p}$, acting like an anti-damping or additional damping depending on current direction.
-
----
-
-## 13. Summary of the Full Derivation
-
-| Step | Physics | Mathematics |
-|------|---------|-------------|
-| **1** | Magnetic moment in field | $U = -\boldsymbol{\mu}\cdot\mathbf{H}$, $\boldsymbol{\tau} = \boldsymbol{\mu} \times \mathbf{H}$ |
-| **2** | Angular momentum | $\boldsymbol{\mu} = \gamma\mathbf{L}$, $\gamma < 0$ for electrons |
-| **3** | Undamped precession | $\frac{d\mathbf{M}}{dt} = \gamma\mathbf{M}\times\mathbf{H}_{\text{eff}}$ |
-| **4** | Magnitude conservation | $\mathbf{M}\cdot\frac{d\mathbf{M}}{dt} = 0 \implies |\mathbf{M}| = M_s$ |
-| **5** | Need for damping | Energy must decrease; perpetual precession is unphysical |
-| **6** | LL damping | Add $-\frac{\lambda}{M_s^2}\mathbf{M}\times(\mathbf{M}\times\mathbf{H}_{\text{eff}})$ |
-| **7** | Gilbert damping | Replace $\mathbf{H}_{\text{eff}} \to \mathbf{H}_{\text{eff}} - \frac{\alpha}{\gamma M_s}\frac{d\mathbf{M}}{dt}$ |
-| **8** | Solve implicit equation | Use vector triple product to get explicit form |
-| **9** | Equivalence | $\gamma_{\text{LL}} = \gamma/(1+\alpha^2)$, $\lambda = |\gamma|\alpha M_s/(1+\alpha^2)$ |
-| **10** | Energy dissipation | Show $d\mathcal{E}/dt = -\frac{\mu_0 M_s \alpha\gamma_0}{1+\alpha^2}\int|\mathbf{H}_{\text{eff}}^{\perp}|^2 dV \leq 0$ |
-
----
-
-## 14. Final Equation
-
-The **Landau-Lifshitz-Gilbert equation** in its most common modern form is:
-
-$$\boxed{\frac{\partial \mathbf{m}}{\partial t} = -\frac{\gamma_0}{1+\alpha^2} \mathbf{m} \times \mathbf{H}_{\text{eff}} - \frac{\alpha\gamma_0}{1+\alpha^2} \mathbf{m} \times (\mathbf{m} \times \mathbf{H}_{\text{eff}})}$$
-
-Or in implicit Gilbert form:
-
-$$\frac{\partial \mathbf{m}}{\partial t} = -\gamma_0 \mathbf{m} \times \mathbf{H}_{\text{eff}} + \alpha \mathbf{m} \times \frac{\partial \mathbf{m}}{\partial t}$$
-
-where:
-- $\mathbf{m} = \mathbf{M}/M_s$ (unit magnetization)
-- $\gamma_0 = g|e|/2m_e \approx 1.76086 \times 10^{11}$ rad·s⁻¹·T⁻¹
-- $\alpha \in [0, 1]$ (typically) is the dimensionless Gilbert damping parameter
-- $\mathbf{H}_{\text{eff}} = -\frac{1}{\mu_0 M_s}\frac{\delta \mathcal{E}}{\delta \mathbf{m}}$ is the effective field
-
-This equation governs **all** non-equilibrium micromagnetic phenomena: domain wall motion, spin waves, vortex dynamics, switching in magnetic tunnel junctions, and the entire field of spintronics.
+- $|\mathbf{m}| = 1$ is fixed, so longitudinal relaxation near the Curie temperature is not described; that needs the Landau–Lifshitz–Bloch equation.
+- There are no thermal fluctuations; those need the stochastic LLG equation with a random field.
+- Damping is local, scalar and instantaneous. Non-local, tensorial or inertial damping require extra terms.

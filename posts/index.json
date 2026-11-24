@@ -1,16 +1,30 @@
 ﻿[
   {
-    "file": "black-holes-explained.md",
-    "title": "Black Holes: From Theory to Observation",
-    "topic": "Astronomy",
-    "date": "2026-09-01",
-    "excerpt": "A deep dive into the physics of black holes — from Schwarzschild's solution to the Event Horizon Telescope image of M87*."
-  },
-  {
     "file": "llg-equation.md",
     "title": "All you need to know and understand about the LLG equation",
     "topic": "Spintronics",
     "date": "2026-09-24",
     "excerpt": "Detailed derivation and explanation of the Landau-Lifshitz-Gilbert equation. How it's work, intuation and derivation included."
+  },
+  {
+    "file": "spin-hall-effect.md",
+    "title": "All you need to know and understand about the Spin Hall Effect",
+    "topic": "Spintronics",
+    "date": "2026-09-24",
+    "excerpt": "Detailed derivation and explanation of the Spin Hall Effect. How it's work, intuation and derivation included."
+  },
+  {
+    "file": "Altermagnets d g and i wave spin splitting.md",
+    "title": "Altermagnets: d-, g- and i-wave spin splitting",
+    "topic": "Spintronics",
+    "date": "2026-11-12",
+    "excerpt": "Detailed d-, g- and i-wave spin splitting in altermagnets. How it's work, intuation and derivation included."
+  },
+  {
+    "file": "two_fundamental_paper_of_altermagnet.md",
+    "title": "Altermagnetism and Altermagnetic Spintronics — Study Note",
+    "topic": "Altermagnetism",
+    "date": "2026-11-20",
+    "excerpt": "A comprehensive study note on altermagnetism and altermagnetic spintronics, covering fundamental concepts, key research papers, and recent advancements in the field from two fundamental papers of this topic."
   }
 ]
